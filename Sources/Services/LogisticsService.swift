@@ -21,12 +21,12 @@ class LogisticsService {
             
             if !shipments_.isEmpty {
                 for shipment in shipments_ {
-                    let travelTime = (shipment.distance / vehicle.maxSpeed).formated()
-                    let availableVehicleTime = vehicleAvailability[nextAvailableVehicleIndex].formated()
+                    let travelTime = (shipment.distance / vehicle.maxSpeed).formatted()
+                    let availableVehicleTime = vehicleAvailability[nextAvailableVehicleIndex].formatted()
                     let deliveryTime = availableVehicleTime + travelTime
                     
                     if let index = updatedShipments.firstIndex(where: { $0.id == shipment.id }) {
-                        updatedShipments[index].deliveryTime = deliveryTime.formatedString()
+                        updatedShipments[index].deliveryTime = deliveryTime.formattedDouble()
                         let (discount, totalCost) = PricingService.calculateDeliveryCost(for: shipment, baseCost: baseDeliveryCost, offers: offers)
                         updatedShipments[index].discount = discount
                         updatedShipments[index].totalCost = totalCost
@@ -34,7 +34,7 @@ class LogisticsService {
                 }
                 
                 let maxDistance = shipments_.map { $0.distance }.max() ?? 0.00
-                let roundTripTime = ((maxDistance / vehicle.maxSpeed).formated() * roundTripMultiplier).formated()
+                let roundTripTime = ((maxDistance / vehicle.maxSpeed).formatted() * roundTripMultiplier).formatted()
                 vehicleAvailability[nextAvailableVehicleIndex] += roundTripTime
                 remainingShipments = remainingShipments.filter { !shipments_.contains($0) }
             }
